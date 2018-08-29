@@ -90,8 +90,8 @@ method getWorkflowsByProject ($projectdata) {
 	
 	my $username = $projectdata->{username};
 	my $projectname = $projectdata->{projectname};
-	$self->logCritical("username not defined") and exit if not defined $username;
-	$self->logCritical("projectname not defined") and exit if not defined $projectname;
+	$self->logError("username not defined") and return undef if not defined $username;
+	$self->logError("projectname not defined") and return undef if not defined $projectname;
 	
 	#### GET ALL SOURCES
 	my $query = qq{SELECT * FROM workflow

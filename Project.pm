@@ -12,6 +12,17 @@ use Method::Signatures::Simple;
 		
 =cut
 
+method isProject ( $username, $projectname ) {
+    $self->logDebug("username", $username);
+    $self->logDebug("projectname", $projectname);
+
+    my $project = $self->getProject( $username, $projectname );
+    $self->logDebug("project", $project);
+
+    return 0 if not $project or not defined $project->{projectname};
+    return 1;
+}
+
 method getProject ( $username, $projectname ) {
 	$self->logDebug("username", $username);
 	$self->logDebug("projectname", $projectname);
