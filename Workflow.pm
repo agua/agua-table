@@ -61,6 +61,15 @@ AND workflownumber=$workflownumber");
 	return $workflowname;
 }
 
+method getWorkflowNumber ( $username, $projectname, $workflowname ) {	
+	my $workflownumber = $self->db()->query("SELECT workflownumber FROM workflow
+WHERE username='$username'
+AND projectname='$projectname'
+AND workflowname='$workflowname'");
+
+	return $workflownumber;
+}
+
 method getWorkflows {
 	#### VALIDATE
 	my $username = $self->username();
@@ -129,7 +138,8 @@ method _addWorkflow ($data) {
 
 	#### QUIT IF NAME EXISTS ALREADY
 	my $query = qq{SELECT workflowname FROM workflow
-WHERE projectname='$data->{projectname}'
+WHERE username='$data->{username}'
+AND projectname='$data->{projectname}'
 AND workflowname='$data->{workflowname}'};
 	my $already_exists = $self->db()->query($query);
 	if ( $already_exists ) {
