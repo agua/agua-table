@@ -610,7 +610,7 @@ CREATE TABLE `stage` (
   `successor` varchar(3) DEFAULT NULL,
   `location` varchar(255) NOT NULL DEFAULT '',
   `executor` varchar(255) NOT NULL DEFAULT '',
-  `envarfile` varchar(255) NOT NULL DEFAULT '',
+  `prescript` varchar(255) NOT NULL DEFAULT '',
   `cluster` varchar(20) NOT NULL DEFAULT '',
   `submit` int(1) DEFAULT NULL,
   `stderrfile` varchar(255) DEFAULT NULL,
