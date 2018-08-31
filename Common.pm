@@ -41,8 +41,6 @@ method setDbh ( $args ) {
 	$dbfile 	=	$self->conf()->getKey("core:INSTALLDIR") . "/" . $self->conf()->getKey("database:DBFILE") if not defined $dbfile;
 	$self->logNote("dbfile", $dbfile);
 
-	# $dbfile = "/tmp/agua.sqlite";
-
 	$dbtype 	=	$self->conf()->getKey("database:DBTYPE") if not defined $dbtype;
 	$self->logNote("database", $database);
 	$dbuser 		=	$self->conf()->getKey("database:USER") if not defined $dbuser;

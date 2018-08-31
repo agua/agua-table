@@ -40,6 +40,22 @@ AND workflowname='$workflowname'};
 	return $success;	
 }
 
+method isWorkflow ($username, $projectname, $workflowname) {
+	#$self->logDebug("username", $username);
+	
+	my $query = qq{SELECT * FROM workflow
+WHERE username='$username'
+AND projectname='$projectname'
+AND workflowname='$workflowname'};
+	my $workflow = $self->db()->queryhash($query);
+	$self->logDebug("workflow", $workflow);
+	if ( not $workflow or not defined $workflow->{workflowname} ) {
+		return 0;
+	}
+	
+	return 1;
+}
+
 method getWorkflow ($username, $projectname, $workflowname) {
 	#$self->logDebug("username", $username);
 	
@@ -99,8 +115,8 @@ method getWorkflowsByProject ($projectdata) {
 	
 	my $username = $projectdata->{username};
 	my $projectname = $projectdata->{projectname};
-	$self->logError("username not defined") and return undef if not defined $username;
-	$self->logError("projectname not defined") and return undef if not defined $projectname;
+	$self->logCritical("username not defined") and exit if not defined $username;
+	$self->logCritical("projectname not defined") and exit if not defined $projectname;
 	
 	#### GET ALL SOURCES
 	my $query = qq{SELECT * FROM workflow
@@ -143,7 +159,7 @@ AND projectname='$data->{projectname}'
 AND workflowname='$data->{workflowname}'};
 	my $already_exists = $self->db()->query($query);
 	if ( $already_exists ) {
-		$self->logError("Workflow name '$data->{workflowname}' already exists in workflow table");
+		$self->logDebug("Workflow name '$data->{workflowname}' already exists in workflow table");
 		return 0;
 	}
 	
