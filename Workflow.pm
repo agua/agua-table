@@ -40,6 +40,23 @@ AND workflowname='$workflowname'};
 	return $success;	
 }
 
+
+method isWorkflow ($username, $projectname, $workflowname) {
+	#$self->logDebug("username", $username);
+
+	my $query = qq{SELECT * FROM workflow
+	WHERE username='$username'
+	AND projectname='$projectname'
+	AND workflowname='$workflowname'};
+	my $workflow = $self->db()->queryhash($query);
+	$self->logDebug("workflow", $workflow);
+	if ( not $workflow or not defined $workflow->{workflowname} ) {
+	       return 0;
+	}
+
+	return 1;
+}
+
 method getWorkflow ($username, $projectname, $workflowname) {
 	#$self->logDebug("username", $username);
 	
