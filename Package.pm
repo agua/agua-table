@@ -27,7 +27,7 @@ method addPackage () {
 	$self->logDebug("data", $data);
 
 	#### CHECK REQUIRED FIELDS ARE DEFINED
-	my $required_fields = ['packagename', 'version', 'opsdir', 'installdir'];	
+	my $required_fields = ['username', 'packagename', 'version', 'installdir'];	
 	my $not_defined = $self->db()->notDefined($data, $required_fields);
 	$self->logError("undefined values: @$not_defined") and exit if @$not_defined;
 	
@@ -36,8 +36,8 @@ method addPackage () {
 	
 	#### ADD DATA
 	my $success = $self->_addPackage($data);
-	$self->logStatus("Could not add package $package") and exit if not $success;
- 	$self->logStatus("Added package $package") if $success;
+	$self->logStatus("Could not add package $packagename") and exit if not $success;
+ 	$self->logStatus("Added package $packagename") if $success;
 }
 
 method _addPackage ($data) {
@@ -46,7 +46,7 @@ method _addPackage ($data) {
 	$data->{datetime}	=	$datetime;
 
 	my $table = "package";
-	my $required_fields = ['owner', 'username', 'packagename', 'version', 'installdir'];
+	my $required_fields = ['username', 'packagename', 'version', 'installdir'];
 	
 	return $self->_addToTable($table, $data, $required_fields);
 }
@@ -90,15 +90,15 @@ method _removePackage ($data) {
 	$self->logDebug("data", $data);
 	
 	#### REMOVE APPS
-	my $table = "app";
+	my $table = "package";
 	my $appdata = $data;
 	$appdata->{owner} = $appdata->{username};
-	my $required_fields = ['owner', 'packagename', 'version'];
+	my $required_fields = ['username', 'packagename', 'version'];
 	$self->_removeFromTable($table, $appdata, $required_fields);
 	
 	#### REMOVE PARAMETERS
 	$table = "parameter";
-	$required_fields = ['owner', 'packagename', 'version'];
+	$required_fields = ['username', 'packagename', 'version'];
 	
 	#### REMOVE PACKAGE
 	$table = "package";

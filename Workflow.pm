@@ -148,6 +148,7 @@ method _addWorkflow ($data) {
 	#### SET TABLE AND REQUIRED FIELDS	
 	my $table = "workflow";
 	my $required_fields = [ "username", "projectname", "workflowname" ];
+	my $fields = $self->db()->fields ( $table );
 
 	#### CHECK REQUIRED FIELDS ARE DEFINED
 	my $not_defined = $self->db()->notDefined($data, $required_fields);
@@ -185,7 +186,7 @@ AND workflowname='$data->{workflowname}'};
 	}
 
 	#### DO ADD
-	my $success = $self->_addToTable($table, $data, $required_fields);
+	my $success = $self->_addToTable($table, $data, $required_fields, $fields );
 	$self->logDebug("success", $success);
 
 	#### ADD THE PROJECT DIRECTORY TO THE USER'S agua DIRECTORY
@@ -195,7 +196,8 @@ AND workflowname='$data->{workflowname}'};
 	$self->logDebug("Creating directory", $directory);
 	
 	#### CREATE DIRECTORY IF NOT EXISTS	
-	`mkdir -p $directory` if not -d $directory;
+	$success = mkdir( $directory, 0755 ) if not -d $directory;
+	$self->logDebug("success", $success);
 
 	return 1;
 }
