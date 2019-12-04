@@ -2,6 +2,8 @@ package Table::Project;
 use Moose::Role;
 use Method::Signatures::Simple;
 
+use File::Path;
+
 =head2
 
 	PACKAGE		Table::Project
@@ -135,7 +137,7 @@ method _addProject ($data) {
 	my $directory = "$fileroot/$data->{projectname}";
 	if ( not -d $directory ) {
 		$self->logDebug("Creating directory", $directory);
-		`mkdir -p $directory`;
+		File::Path::mkpath( $directory );
 		return 0 if not -d $directory;
 	}
 	
