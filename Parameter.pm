@@ -104,6 +104,7 @@ method _addStageParameter ( $data ) {
 	#### SET TABLE AND REQUIRED FIELDS	
 	my $table = "stageparameter";
 	my $required_fields = ["username", "projectname", "workflowname", "appname", "appnumber", "paramname", "paramnumber"];
+	my $fields = $self->db()->fields ( $table );
 
 	#### DEFAULT PARAMTYPE IS 'input'
 	$data->{paramtype}	=	"input" if not defined $data->{paramtype};

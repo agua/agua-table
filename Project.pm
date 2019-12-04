@@ -117,6 +117,7 @@ method _addProject ($data) {
 	#### SET TABLE AND REQUIRED FIELDS	
 	my $table = "project";
 	my $required_fields = ["username", "projectname"];
+	my $fields = $self->db()->fields( $table );
  	$self->logDebug("data->{username}", $data->{username});
  	$self->logDebug("data->{projectname}", $data->{projectname});
 
@@ -125,7 +126,7 @@ method _addProject ($data) {
     $self->logError("undefined values: @$not_defined") and exit if @$not_defined;
 
 	#### DO ADD
-	my $success = $self->_addToTable($table, $data, $required_fields);	
+	my $success = $self->_addToTable($table, $data, $required_fields, $fields );	
  	$self->logError("Could not add project $data->{project} into project $data->{projectname} in project table") and exit if not defined $success;
 
 	#### ADD THE PROJECT DIRECTORY TO THE USER'S agua DIRECTORY
